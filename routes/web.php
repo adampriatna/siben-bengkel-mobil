@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\SparepartController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -59,6 +60,12 @@ Route::middleware('auth')->group(function () {
     // CRUD Pengguna: khusus Admin
     Route::middleware('can:manage-users')->group(function () {
         Route::resource('users', UserManagementController::class)
+            ->except(['show']);
+    });
+
+    // CRUD Sparepart: khusus Admin
+    Route::middleware('can:manage-users')->group(function () {
+        Route::resource('spareparts', SparepartController::class)
             ->except(['show']);
     });
 
