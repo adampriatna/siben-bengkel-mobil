@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\SparepartController;
+use App\Http\Controllers\SupplierController;
 
 Route::get('/', function () {
     return redirect('/login');
@@ -68,7 +69,13 @@ Route::middleware('auth')->group(function () {
         Route::resource('spareparts', SparepartController::class)
             ->except(['show']);
     });
-
+    
+    // CRUD Supplier: khusus Admin
+    Route::middleware('can:manage-users')->group(function () {
+        Route::resource('suppliers', SupplierController::class)
+            ->except(['show']);
+    });
+    
     // Profil pengguna
     Route::get('/profile', [
         ProfileController::class,
