@@ -13,12 +13,14 @@ class User extends Authenticatable
     protected $fillable = [
         'nama',
         'username',
+        'email',
         'password',
         'role',
     ];
 
     protected $hidden = [
         'password',
+        'remember_token',
     ];
 
     public function transaksiMasuk()
