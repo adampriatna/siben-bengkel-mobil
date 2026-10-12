@@ -6,13 +6,14 @@ use App\Models\Supplier;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Validation\Rule;
 
 class SupplierController extends Controller
 {
     public function index(): View
     {
         $suppliers = Supplier::query()
-            ->orderBy('nama')
+            ->orderBy('nama_supplier')
             ->paginate(10);
 
         return view('suppliers.index', compact('suppliers'));
@@ -26,9 +27,8 @@ class SupplierController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:150'],
-            'email' => ['nullable', 'email', 'max:255', 'unique:suppliers,email'],
-            'no_telepon' => ['nullable', 'string', 'max:25'],
+            'nama_supplier' => ['required', 'string', 'max:150'],
+            'kontak' => ['nullable', 'string', 'max:255'],
             'alamat' => ['nullable', 'string', 'max:1000'],
         ]);
 
@@ -44,12 +44,13 @@ class SupplierController extends Controller
         return view('suppliers.edit', compact('supplier'));
     }
 
-    public function update(Request $request, Supplier $supplier): RedirectResponse
-    {
+    public function update(
+        Request $request,
+        Supplier $supplier
+    ): RedirectResponse {
         $validated = $request->validate([
-            'nama' => ['required', 'string', 'max:150'],
-            'email' => ['nullable', 'email', 'max:255', 'unique:suppliers,email,'.$supplier->id],
-            'no_telepon' => ['nullable', 'string', 'max:25'],
+            'nama_supplier' => ['required', 'string', 'max:150'],
+            'kontak' => ['nullable', 'string', 'max:255'],
             'alamat' => ['nullable', 'string', 'max:1000'],
         ]);
 
